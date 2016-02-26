@@ -42,13 +42,17 @@ public class Player
     {
         xpCurrent += xp;
 
+        //check if level up has occured
         if(xpCurrent >= xpNeeded)
         {
+            //update stats
             level++;
             health += 5;
             attack += 1;
             defense += 1;
             speed += 1;
+
+            //reset xp and xpNeeded
             xpCurrent = 0;
             xpNeeded = xpNeeded + (20 * level);
         }

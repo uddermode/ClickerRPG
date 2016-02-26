@@ -38,12 +38,18 @@ public class World
     public void update(float deltaTime)
     {
         lastUpdate += deltaTime;
+
+        //check if a second has passed
         if(lastUpdate >= 1)
         {
             lastUpdate = 0;
+
+            //checks player state for what to do
             switch(player.getState())
             {
+                //Player is fighting an enemy
                 case STATE_FIGHTING:
+                    //Check if enemy is still alive
                     if(!enemyKilled)
                     {
                         applyDPS();
@@ -54,7 +60,7 @@ public class World
 
                         }
                     }
-                    else
+                    else //Generate a new enemy
                     {
                         enemyKilled = false;
                         enemy = EnemyFactory.EFACTORY.generate(player.getLevel());
@@ -82,10 +88,11 @@ public class World
         }
         else //Display enemy stats
         {
-            font.draw(batch, "Level: " + enemy.getLevel(), 200, 450);
-            font.draw(batch, "Health: " + enemy.getHealth(), 200, 400);
-            font.draw(batch, "Attack: " + enemy.getAttack(), 200, 350);
-            font.draw(batch, "Defense: " + enemy.getDefense(), 200, 300);
+            font.draw(batch, "Name: " + enemy.getName(), 200, 450);
+            font.draw(batch, "Level: " + enemy.getLevel(), 200, 400);
+            font.draw(batch, "Health: " + enemy.getHealth(), 200, 350);
+            font.draw(batch, "Attack: " + enemy.getAttack(), 200, 300);
+            font.draw(batch, "Defense: " + enemy.getDefense(), 200, 250);
         }
     }
 
@@ -96,11 +103,13 @@ public class World
         return Math.max(player.getAttack() * (player.getAttack()/enemy.getDefense()), player.getLevel());
     }
 
+    //Actually does damage to the enemy
     public void applyDPS()
     {
         enemy.setHealth(enemy.getHealth()-getDPS());
     }
 
+    //Calculates and applies the xp gained
     public void applyXP()
     {
         player.gainXP(enemy.getXpDrop()*enemy.getLevel());
