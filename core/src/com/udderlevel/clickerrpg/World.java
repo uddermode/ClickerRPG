@@ -14,6 +14,7 @@ public class World
     private Player player;
     private Enemy enemy;
     private float lastUpdate; //Time since last time update was called. Aiming for 1 second
+    private boolean enemyKilled;
 
     //Constructors
 
@@ -22,6 +23,7 @@ public class World
     {
         player = new Player();
         this.enemy = EnemyFactory.EFACTORY.generate(player.getLevel());
+        enemyKilled = false;
     }
 
     //loading player
@@ -29,6 +31,7 @@ public class World
     {
         this.player = player;
         this.enemy = EnemyFactory.EFACTORY.generate(player.getLevel());
+        enemyKilled = false;
     }
 
     //Methods
@@ -37,8 +40,20 @@ public class World
         lastUpdate += deltaTime;
         if(lastUpdate >= 1)
         {
-            applyDPS();
             lastUpdate = 0;
+            if(!enemyKilled)
+            {
+                applyDPS();
+                if(enemy.getHealth() <= 0)
+                {
+                    enemyKilled = true;
+                }
+            }
+            else
+            {
+                enemyKilled = false;
+                enemy = EnemyFactory.EFACTORY.generate(player.getLevel());
+            }
         }
     }
 
@@ -54,11 +69,17 @@ public class World
         font.draw(batch, "Next Level: " + player.getXpNeeded(), 0, 150);
         font.draw(batch, "DPS: " + getDPS(), 0, 100);
 
-        //Enemy Stats
-        font.draw(batch, "Level: " + enemy.getLevel(), 200, 450);
-        font.draw(batch, "Health: " + enemy.getHealth(), 200, 400);
-        font.draw(batch, "Attack: " + enemy.getAttack(), 200, 350);
-        font.draw(batch, "Defense: " + enemy.getDefense(), 200, 300);
+        if(enemyKilled) //Display Enemy has been defeated
+        {
+            font.draw(batch, "Enemy Defeated", 200, 450);
+        }
+        else //Display enemy stats
+        {
+            font.draw(batch, "Level: " + enemy.getLevel(), 200, 450);
+            font.draw(batch, "Health: " + enemy.getHealth(), 200, 400);
+            font.draw(batch, "Attack: " + enemy.getAttack(), 200, 350);
+            font.draw(batch, "Defense: " + enemy.getDefense(), 200, 300);
+        }
     }
 
     public int getDPS()
