@@ -35,7 +35,7 @@ public class Player
         speed = 5;
         xpNeeded = 10;
         xpCurrent = 0;
-        state = State.STATE_MOVING;
+        setState(State.STATE_MOVING);
     }
 
     //Getters
