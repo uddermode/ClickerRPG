@@ -48,12 +48,13 @@ public class MyGdxGame extends ApplicationAdapter {
 		font.draw(batch, "Speed: " + player.getSpeed(), 0, 250);
 		font.draw(batch, "Xp: " + player.getXpCurrent(), 0, 200);
 		font.draw(batch, "Next Level: " + player.getXpNeeded(), 0, 150);
+		font.draw(batch, "DPS: " + player.getLevel(), 0, 100);
 
 		//Enemy Stats
-		font.draw(batch, "Level: " + ene.getLevel(), 100, 450);
-		font.draw(batch, "Health: " + ene.getHealth(), 100, 400);
-		font.draw(batch, "Attack: " + ene.getAttack(), 100, 350);
-		font.draw(batch, "Defense: " + ene.getDefense(), 100, 300);
+		font.draw(batch, "Level: " + ene.getLevel(), 200, 450);
+		font.draw(batch, "Health: " + ene.getHealth(), 200, 400);
+		font.draw(batch, "Attack: " + ene.getAttack(), 200, 350);
+		font.draw(batch, "Defense: " + ene.getDefense(), 200, 300);
 
 
 		batch.end();

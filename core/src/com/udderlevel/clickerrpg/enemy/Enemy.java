@@ -1,6 +1,7 @@
 package com.udderlevel.clickerrpg.enemy;
 
 /**
+ * The base class all enemies all derived from
  * Created by Edwin on 2/26/2016.
  */
 public abstract class Enemy
@@ -12,12 +13,20 @@ public abstract class Enemy
     private int defense;
     private int xpDrop;
 
+    private String name;
+
     //Constructors
-    public Enemy()
+    public Enemy(String name)
     {
+        this.name = name;
     }
 
     //Getters
+    public String getName()
+    {
+        return name;
+    }
+
     public int getLevel()
     {
         return level;

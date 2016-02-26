@@ -1,6 +1,7 @@
 package com.udderlevel.clickerrpg.enemy;
 
 /**
+ * The Enemy Factory creates a random enemy
  * Created by Edwin on 2/26/2016.
  */
 public enum EnemyFactory
