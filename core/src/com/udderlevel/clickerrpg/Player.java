@@ -9,19 +9,20 @@ public class Player
     //Player states
     public enum State
     {
-        STATE_MOVING, STATE_FIGHTING, STATE_WON, STATE_DEAD;
+        STATE_MOVING, STATE_FIGHTING, STATE_WON, STATE_DEAD
     }
 
     //Current state of player
     private State state;
 
-    int level;
-    int health;
-    int attack;
-    int defense;
-    int speed;
-    int xpNeeded;
-    int xpCurrent;
+    //Player stats
+    private int level;
+    private int health;
+    private int attack;
+    private int defense;
+    private int speed;
+    private int xpNeeded;
+    private int xpCurrent;
 
     //Constructors
     public Player()
