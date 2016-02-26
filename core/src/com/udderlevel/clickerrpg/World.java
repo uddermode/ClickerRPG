@@ -41,18 +41,25 @@ public class World
         if(lastUpdate >= 1)
         {
             lastUpdate = 0;
-            if(!enemyKilled)
+            switch(player.getState())
             {
-                applyDPS();
-                if(enemy.getHealth() <= 0)
-                {
-                    enemyKilled = true;
-                }
-            }
-            else
-            {
-                enemyKilled = false;
-                enemy = EnemyFactory.EFACTORY.generate(player.getLevel());
+                case STATE_FIGHTING:
+                    if(!enemyKilled)
+                    {
+                        applyDPS();
+                        if(enemy.getHealth() <= 0)
+                        {
+                            enemyKilled = true;
+                            applyXP();
+
+                        }
+                    }
+                    else
+                    {
+                        enemyKilled = false;
+                        enemy = EnemyFactory.EFACTORY.generate(player.getLevel());
+                    }
+                    break;
             }
         }
     }
@@ -82,14 +89,21 @@ public class World
         }
     }
 
+    //Calculates the damage per second.
+    //Minimum damage is player level
     public int getDPS()
     {
-        return Math.min(player.getAttack() * (player.getAttack()/enemy.getDefense()), player.getAttack()/2);
+        return Math.max(player.getAttack() * (player.getAttack()/enemy.getDefense()), player.getLevel());
     }
 
     public void applyDPS()
     {
         enemy.setHealth(enemy.getHealth()-getDPS());
+    }
+
+    public void applyXP()
+    {
+        player.gainXP(enemy.getXpDrop()*enemy.getLevel());
     }
 
 }

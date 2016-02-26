@@ -18,8 +18,8 @@ public class Rat extends Enemy
         super(NAME);
         setLevel(playerLevel);
         setAttack(BASE_ATK + getLevel() - 1);
-        setDefense(BASE_DEF+getLevel() - 1);
-        setHealth(BASE_HP+getLevel() - 1);
-        setXpDrop(BASE_XP+getLevel() - 1);
+        setDefense(BASE_DEF + getLevel() - 1);
+        setHealth(BASE_HP + getLevel() - 1);
+        setXpDrop(BASE_XP + getLevel() - 1);
     }
 }
