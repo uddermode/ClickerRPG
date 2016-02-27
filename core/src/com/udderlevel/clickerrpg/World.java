@@ -74,8 +74,8 @@ public class World
                             player.setState(Player.State.STATE_WON);
                             applyXP();
                         }
-                        break;
                     }
+                    break;
                 case STATE_WON:
                     player.setState(Player.State.STATE_MOVING);
                     break;
@@ -96,6 +96,7 @@ public class World
         font.draw(batch, "Xp: " + player.getXpCurrent(), 0, 200);
         font.draw(batch, "Next Level: " + player.getXpNeeded(), 0, 150);
         font.draw(batch, "DPS: " + getDPS(), 0, 100);
+        font.draw(batch, "Click DMG: " + player.getClickDMG(), 0, 50);
 
         switch (player.getState()) {
             case STATE_MOVING:
@@ -134,7 +135,25 @@ public class World
     //Calculates and applies the xp gained
     public void applyXP()
     {
-        player.gainXP(enemy.getXpDrop()*enemy.getLevel());
+        player.gainXP(enemy.getXpDrop() * enemy.getLevel());
+    }
+
+    public void applyClickDMG()
+    {
+        enemy.setHealth(enemy.getHealth()-player.getClickDMG());
+    }
+
+    public void clickedEnemy()
+    {
+        if (!enemyKilled) {
+            applyClickDMG();
+            if (enemy.getHealth() <= 0) {
+                enemyKilled = true;
+                worldLevel++;
+                player.setState(Player.State.STATE_WON);
+                applyXP();
+            }
+        }
     }
 
 }

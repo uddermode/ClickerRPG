@@ -24,6 +24,8 @@ public class Player
     private int xpNeeded;
     private int xpCurrent;
 
+    private int clickDMG;
+
     //Constructors
     public Player()
     {
@@ -34,6 +36,7 @@ public class Player
         speed = 5;
         xpNeeded = 10;
         xpCurrent = 0;
+        clickDMG = 1;
         setState(State.STATE_FIGHTING);
     }
 
@@ -51,6 +54,7 @@ public class Player
             attack += 1;
             defense += 1;
             speed += 1;
+            clickDMG += level;
 
             //reset xp and xpNeeded
             xpCurrent = 0;
@@ -99,9 +103,13 @@ public class Player
         return xpCurrent;
     }
 
+    public int getClickDMG() { return clickDMG; }
+
     //Setters
     public void setState(State state)
     {
         this.state = state;
     }
+
+    public void addClickDMG(int increase) { this.clickDMG += increase; }
 }
