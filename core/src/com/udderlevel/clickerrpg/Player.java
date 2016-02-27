@@ -30,12 +30,32 @@ public class Player
         level = 1;
         health = 20;
         attack = 5;
-        attack = 5;
         defense = 5;
         speed = 5;
         xpNeeded = 10;
         xpCurrent = 0;
-        state = State.STATE_MOVING;
+        setState(State.STATE_FIGHTING);
+    }
+
+    //Methods
+    public void gainXP(int xp)
+    {
+        xpCurrent += xp;
+
+        //check if level up has occured
+        if(xpCurrent >= xpNeeded)
+        {
+            //update stats
+            level++;
+            health += 5;
+            attack += 1;
+            defense += 1;
+            speed += 1;
+
+            //reset xp and xpNeeded
+            xpCurrent = 0;
+            xpNeeded = xpNeeded + (20 * level);
+        }
     }
 
     //Getters

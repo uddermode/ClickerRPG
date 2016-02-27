@@ -13,8 +13,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	SpriteBatch batch;
 	BitmapFont font;
 	Texture img;
-	Player player;
-	Enemy ene;
+	World world;
 	
 	@Override
 	public void create () {
@@ -28,33 +27,18 @@ public class MyGdxGame extends ApplicationAdapter {
 			//Create new player based off of saved data
 
 		//else Create a blank player
-		player = new Player();
-
-		ene = EnemyFactory.EFACTORY.generate(player.getLevel());
+		world = new World();
 	}
 
 	@Override
-	public void render () {
+	public void render ()
+	{
+		world.update(Gdx.graphics.getDeltaTime());
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
 		//batch.draw(img, 0, 0);
-
-		//Player Stats
-		font.draw(batch, "Level: " + player.getLevel(), 0, 450);
-		font.draw(batch, "Health: " + player.getHealth(), 0, 400);
-		font.draw(batch, "Attack: " + player.getAttack(), 0, 350);
-		font.draw(batch, "Defense: " + player.getDefense(), 0, 300);
-		font.draw(batch, "Speed: " + player.getSpeed(), 0, 250);
-		font.draw(batch, "Xp: " + player.getXpCurrent(), 0, 200);
-		font.draw(batch, "Next Level: " + player.getXpNeeded(), 0, 150);
-
-		//Enemy Stats
-		font.draw(batch, "Level: " + ene.getLevel(), 100, 450);
-		font.draw(batch, "Health: " + ene.getHealth(), 100, 400);
-		font.draw(batch, "Attack: " + ene.getAttack(), 100, 350);
-		font.draw(batch, "Defense: " + ene.getDefense(), 100, 300);
-
+		world.render(batch, font);
 
 		batch.end();
 	}
