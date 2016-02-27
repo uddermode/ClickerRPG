@@ -88,30 +88,30 @@ public class World
     public void render(SpriteBatch batch, BitmapFont font)
     {
         //Player Stats
-        font.draw(batch, "Level: " + player.getLevel(), 0, 450);
-        font.draw(batch, "Health: " + player.getHealth(), 0, 400);
-        font.draw(batch, "Attack: " + player.getAttack(), 0, 350);
-        font.draw(batch, "Defense: " + player.getDefense(), 0, 300);
-        font.draw(batch, "Speed: " + player.getSpeed(), 0, 250);
-        font.draw(batch, "Xp: " + player.getXpCurrent(), 0, 200);
-        font.draw(batch, "Next Level: " + player.getXpNeeded(), 0, 150);
-        font.draw(batch, "DPS: " + getDPS(), 0, 100);
-        font.draw(batch, "Click DMG: " + player.getClickDMG(), 0, 50);
+        font.draw(batch, "Level: " + player.getLevel(), 20, 290);
+        font.draw(batch, "Health: " + player.getHealth(), 20, 260);
+        font.draw(batch, "Attack: " + player.getAttack(), 20, 230);
+        font.draw(batch, "Defense: " + player.getDefense(), 20, 200);
+        font.draw(batch, "Speed: " + player.getSpeed(), 20, 170);
+        font.draw(batch, "Xp: " + player.getXpCurrent(), 20, 140);
+        font.draw(batch, "Next Level: " + player.getXpNeeded(), 20, 110);
+        font.draw(batch, "DPS: " + getDPS(), 20, 80);
+        font.draw(batch, "Click DMG: " + player.getClickDMG(), 20, 50);
 
         switch (player.getState()) {
             case STATE_MOVING:
-                font.draw(batch, "Distance until next enemy: " + distanceFromEnemy, 200, 450);
+                font.draw(batch, "Distance until next enemy: " + distanceFromEnemy, 150, 290);
                 break;
             case STATE_FIGHTING:
-                font.draw(batch, "Name: " + enemy.getName(), 200, 450);
-                font.draw(batch, "Level: " + enemy.getLevel(), 200, 400);
-                font.draw(batch, "Health: " + enemy.getHealth(), 200, 350);
-                font.draw(batch, "Attack: " + enemy.getAttack(), 200, 300);
-                font.draw(batch, "Defense: " + enemy.getDefense(), 200, 250);
+                font.draw(batch, "Name: " + enemy.getName(), 200, 290);
+                font.draw(batch, "Level: " + enemy.getLevel(), 200, 260);
+                font.draw(batch, "Health: " + enemy.getHealth(), 200, 230);
+                font.draw(batch, "Attack: " + enemy.getAttack(), 200, 200);
+                font.draw(batch, "Defense: " + enemy.getDefense(), 200, 170);
 
                 break;
             case STATE_WON:
-                font.draw(batch, "Enemy Defeated", 200, 450);
+                font.draw(batch, "Enemy Defeated", 200, 290);
                 break;
             case STATE_DEAD:
                 break;
