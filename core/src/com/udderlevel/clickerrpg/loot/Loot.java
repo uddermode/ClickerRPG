@@ -41,7 +41,7 @@ public class Loot
     }
 
     //COnstructor for all loot after user has one of type
-    public Loot(Loot current, Random rand)
+    public Loot(Loot current, Random rand, Type type)
     {
         if(current == null)
         {
@@ -49,7 +49,7 @@ public class Loot
         }
 
         name = "Gonna add name generator later";
-        this.type = current.getType();
+        this.type = type;
 
         switch(getType())
         {
