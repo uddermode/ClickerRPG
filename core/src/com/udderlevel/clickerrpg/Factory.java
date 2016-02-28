@@ -73,7 +73,5 @@ public enum Factory
         {
             return new Loot(loot, rand, Loot.Type.WEAPON);
         }
-
     }
-
 }

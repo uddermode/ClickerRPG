@@ -31,7 +31,7 @@ public class World
     {
         player = new Player();
         player.setState(Player.State.STATE_MOVING);
-        enemy = Factory.EFACTORY.generate(worldLevel);
+        enemy = Factory.FACTORY.generateEnemy(worldLevel);
         distanceFromEnemy = 10;
         worldLevel = 1;
         state = State.STATE_STATS;
@@ -42,7 +42,7 @@ public class World
     {
         this.player = player;
         player.setState(Player.State.STATE_MOVING);
-        enemy = Factory.EFACTORY.generate(worldLevel);
+        enemy = Factory.FACTORY.generateEnemy(worldLevel);
         this.worldLevel = worldLevel;
         distanceFromEnemy = 10 * worldLevel;
         state = State.STATE_STATS;
@@ -65,7 +65,7 @@ public class World
                         player.setState(Player.State.STATE_FIGHTING);
                         //Generate enemy
                         enemyKilled = false;
-                        enemy = Factory.EFACTORY.generate((worldLevel/3) + 1);
+                        enemy = Factory.FACTORY.generateEnemy((worldLevel/3) + 1);
                         distanceFromEnemy = 10 * worldLevel;
                     } else {
                         distanceFromEnemy -= player.getSpeed();
