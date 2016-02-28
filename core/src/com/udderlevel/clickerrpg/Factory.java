@@ -1,4 +1,9 @@
-package com.udderlevel.clickerrpg.enemy;
+package com.udderlevel.clickerrpg;
+
+import com.udderlevel.clickerrpg.enemy.Bat;
+import com.udderlevel.clickerrpg.enemy.Enemy;
+import com.udderlevel.clickerrpg.enemy.Goblin;
+import com.udderlevel.clickerrpg.enemy.Rat;
 
 import java.util.Random;
 
@@ -6,12 +11,12 @@ import java.util.Random;
  * The Enemy Factory creates a random enemy
  * Created by Edwin on 2/26/2016.
  */
-public enum EnemyFactory
+public enum Factory
 {
     EFACTORY;
 
     private Random rand;
-    EnemyFactory()
+    Factory()
     {
         rand = new Random();
     }

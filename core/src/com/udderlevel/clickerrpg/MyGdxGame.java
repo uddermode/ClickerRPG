@@ -13,14 +13,11 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.input.GestureDetector.GestureListener;
-import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udderlevel.clickerrpg.enemy.Enemy;
-import com.udderlevel.clickerrpg.enemy.EnemyFactory;
 
 public class MyGdxGame implements ApplicationListener, GestureListener, InputProcessor {
 	SpriteBatch batch;

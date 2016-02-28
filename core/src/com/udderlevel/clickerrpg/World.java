@@ -3,7 +3,6 @@ package com.udderlevel.clickerrpg;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.udderlevel.clickerrpg.enemy.Enemy;
-import com.udderlevel.clickerrpg.enemy.EnemyFactory;
 
 /**
  * The world class holds all the game logic
@@ -32,7 +31,7 @@ public class World
     {
         player = new Player();
         player.setState(Player.State.STATE_MOVING);
-        enemy = EnemyFactory.EFACTORY.generate(worldLevel);
+        enemy = Factory.EFACTORY.generate(worldLevel);
         distanceFromEnemy = 10;
         worldLevel = 1;
         state = State.STATE_STATS;
@@ -43,7 +42,7 @@ public class World
     {
         this.player = player;
         player.setState(Player.State.STATE_MOVING);
-        enemy = EnemyFactory.EFACTORY.generate(worldLevel);
+        enemy = Factory.EFACTORY.generate(worldLevel);
         this.worldLevel = worldLevel;
         distanceFromEnemy = 10 * worldLevel;
         state = State.STATE_STATS;
@@ -66,7 +65,7 @@ public class World
                         player.setState(Player.State.STATE_FIGHTING);
                         //Generate enemy
                         enemyKilled = false;
-                        enemy = EnemyFactory.EFACTORY.generate((worldLevel/3) + 1);
+                        enemy = Factory.EFACTORY.generate((worldLevel/3) + 1);
                         distanceFromEnemy = 10 * worldLevel;
                     } else {
                         distanceFromEnemy -= player.getSpeed();
@@ -158,7 +157,7 @@ public class World
 
     public void applyClickDMG()
     {
-        enemy.setHealth(enemy.getHealth()-player.getClickDMG());
+        enemy.setHealth(enemy.getHealth() - player.getClickDMG());
     }
 
     public void clickedEnemy()
