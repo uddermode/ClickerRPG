@@ -4,6 +4,8 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -11,6 +13,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.input.GestureDetector.GestureListener;
+import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
@@ -24,12 +28,27 @@ public class MyGdxGame implements ApplicationListener, GestureListener, InputPro
 	OrthographicCamera camera;
 	Viewport vp;
 	World world;
+	AssetManager manager;
+
+	//Rectangles for menus and other clickable stuff
+	Rectangle fightArea;
+	Rectangle statsMenu;
+	Rectangle bagMenu;
+	Rectangle gearMenu;
 	
 	@Override
 	public void create () {
 		//set up rendering
 		batch = new SpriteBatch();
 		font = new BitmapFont();
+		font.setColor(Color.BLACK);
+
+		//load the assets
+		manager = new AssetManager();
+		manager.load("stats.png", Texture.class);
+		manager.load("bag.png", Texture.class);
+		manager.load("gear.png", Texture.class);
+		manager.finishLoading();
 
 		//set up camera
 		camera = new OrthographicCamera();
@@ -42,6 +61,12 @@ public class MyGdxGame implements ApplicationListener, GestureListener, InputPro
 			//Create new player based off of saved data
 		//else Create a blank player
 		world = new World();
+
+		//set up the HUD
+		fightArea = new Rectangle(200, 100, 200, 300);
+		statsMenu = new Rectangle(100, 0, 100, 100);
+		bagMenu = new Rectangle(200, 0, 100, 100);
+		gearMenu = new Rectangle(300, 0, 100, 100);
 
 		//set up input handling
 		InputMultiplexer im = new InputMultiplexer();
@@ -62,16 +87,31 @@ public class MyGdxGame implements ApplicationListener, GestureListener, InputPro
 	@Override
 	public void render ()
 	{
-		//update
-		world.update(Gdx.graphics.getDeltaTime());
-
-		//render
+		Texture background = null;
+		//clear the screen
 		camera.update();
 		Gdx.gl.glClearColor(0, 0, 0, 0);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
+
+		switch(world.getState())
+		{
+			case STATE_STATS:
+				background = manager.get("stats.png");
+				break;
+			case STATE_BAG:
+				background = manager.get("bag.png");
+				break;
+			case STATE_GEAR:
+				background = manager.get("gear.png");
+				break;
+		}
+
+		batch.draw(background, 0, 0);
+		//update
+		world.update(Gdx.graphics.getDeltaTime());
 		world.render(batch, font);
 
 		batch.end();
@@ -161,7 +201,22 @@ public class MyGdxGame implements ApplicationListener, GestureListener, InputPro
 		//convert touch to match screen coords
 		Vector3 touchCoords = camera.unproject(new Vector3(screenX,screenY,0));
 
-		world.clickedEnemy();
+		if(fightArea.contains(touchCoords.x, touchCoords.y))
+		{
+			world.clickedEnemy();
+		}
+		else if(statsMenu.contains(touchCoords.x, touchCoords.y))
+		{
+			world.setState(World.State.STATE_STATS);
+		}
+		else if(bagMenu.contains(touchCoords.x, touchCoords.y))
+		{
+			world.setState(World.State.STATE_BAG);
+		}
+		else if(gearMenu.contains(touchCoords.x, touchCoords.y))
+		{
+			world.setState(World.State.STATE_GEAR);
+		}
 		return false;
 	}
 
