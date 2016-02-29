@@ -3,7 +3,9 @@ package com.udderlevel.clickerrpg;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.udderlevel.clickerrpg.enemy.Enemy;
-import com.udderlevel.clickerrpg.enemy.EnemyFactory;
+import com.udderlevel.clickerrpg.loot.Loot;
+
+import java.util.ArrayList;
 
 /**
  * The world class holds all the game logic
@@ -23,6 +25,10 @@ public class World
     private int distanceFromEnemy;
     private int worldLevel;
 
+    //current position in the bag
+    private int bagPos;
+    private int selectedPos;
+
     private State state;
 
     //Constructors
@@ -32,9 +38,11 @@ public class World
     {
         player = new Player();
         player.setState(Player.State.STATE_MOVING);
-        enemy = EnemyFactory.EFACTORY.generate(worldLevel);
+        enemy = Factory.FACTORY.generateEnemy(worldLevel);
         distanceFromEnemy = 10;
         worldLevel = 1;
+        bagPos = 0;
+        selectedPos = 0;
         state = State.STATE_STATS;
     }
 
@@ -43,7 +51,7 @@ public class World
     {
         this.player = player;
         player.setState(Player.State.STATE_MOVING);
-        enemy = EnemyFactory.EFACTORY.generate(worldLevel);
+        enemy = Factory.FACTORY.generateEnemy(worldLevel);
         this.worldLevel = worldLevel;
         distanceFromEnemy = 10 * worldLevel;
         state = State.STATE_STATS;
@@ -66,8 +74,8 @@ public class World
                         player.setState(Player.State.STATE_FIGHTING);
                         //Generate enemy
                         enemyKilled = false;
-                        enemy = EnemyFactory.EFACTORY.generate((worldLevel/3) + 1);
-                        distanceFromEnemy = 10 * worldLevel;
+                        enemy = Factory.FACTORY.generateEnemy((worldLevel/3) + 1);
+                        distanceFromEnemy = 10;
                     } else {
                         distanceFromEnemy -= player.getSpeed();
                     }
@@ -86,6 +94,10 @@ public class World
                     }
                     break;
                 case STATE_WON:
+                    if(player.getBag().size() < 20)
+                    {
+                        player.getLoot(Factory.FACTORY.generateLoot(player.getEquip()));
+                    }
                     player.setState(Player.State.STATE_MOVING);
                     break;
                 case STATE_DEAD:
@@ -130,6 +142,25 @@ public class World
                 }
                 break;
             case STATE_BAG:
+                ArrayList<Loot> playerBag = player.getBag();
+                for(int i = 0; (i < 9 && i + bagPos < playerBag.size()) && playerBag.size() != 0; i++)
+                {
+                    font.draw(batch, playerBag.get(bagPos + i).getName(), 20, 290 - (20*i));
+                }
+
+                //Check that something in the bag is selected
+                if(playerBag.size() > bagPos + selectedPos )
+                {
+                    Loot selected = playerBag.get(bagPos + selectedPos);
+                    font.draw(batch, selected.getName(), 160, 290);
+                    font.draw(batch, "Health Bonus: "+selected.getHealth(), 160, 270);
+                    font.draw(batch, "Attack Bonus: "+selected.getAttack(), 160, 250);
+                    font.draw(batch, "Defense Bonus: "+selected.getDefense(), 160, 230);
+                    font.draw(batch, "Speed Bonus: "+selected.getSpeed(), 160, 210);
+                    font.draw(batch, "XP Gain Bonus: "+selected.getXpGain(), 160, 190);
+                    font.draw(batch, "Click DMG Bonus: "+selected.getClickDMG(), 160, 170);
+                    font.draw(batch, "DPS Bonus: "+selected.getDPS(), 160, 150);
+                }
                 break;
             case STATE_GEAR:
                 break;
@@ -158,7 +189,7 @@ public class World
 
     public void applyClickDMG()
     {
-        enemy.setHealth(enemy.getHealth()-player.getClickDMG());
+        enemy.setHealth(enemy.getHealth() - player.getClickDMG());
     }
 
     public void clickedEnemy()
@@ -179,10 +210,40 @@ public class World
         return state;
     }
 
+    public int getBagPos() { return bagPos; }
+
+    public int getSelectedPos() { return selectedPos; }
+
     //setters
     public void setState(State state)
     {
         this.state = state;
+    }
+
+    public void setBagPos(int newPos)
+    {
+        if(newPos >= player.getBag().size() - 10) //if bagPos is at last 10 items, make sure to display 10 always
+        {
+            newPos = player.getBag().size() - 11;
+        }
+        if(newPos < 0) //If bagPos is negative, set to 0
+        {
+            newPos = 0;
+        }
+        this.bagPos = newPos;
+    }
+
+    public void setSelectedPos(int selectedPos)
+    {
+        this.selectedPos = selectedPos;
+        if(this.selectedPos < 0)
+        {
+            this.selectedPos = 0;
+        }
+        if(this.selectedPos > 9)
+        {
+            this.selectedPos = 9;
+        }
     }
 
 }
