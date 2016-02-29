@@ -46,6 +46,9 @@ public class Player
         clickDMG = 1;
         setState(State.STATE_FIGHTING);
 
+        bag = new ArrayList<Loot>();
+        equip = new ArrayList<Loot>();
+
         statChanged = true;
     }
 
@@ -69,6 +72,16 @@ public class Player
             //reset xp and xpNeeded
             xpCurrent = 0;
             xpNeeded = xpNeeded + (20 * level);
+        }
+    }
+
+    public void getLoot(Loot loot)
+    {
+        //Make sure loot is not null
+        if(loot != null)
+        {
+            //add loot to bag
+            bag.add(loot);
         }
     }
 
@@ -146,6 +159,26 @@ public class Player
 
     public boolean isStatChanged() {
         return statChanged;
+    }
+
+    public ArrayList<Loot> getEquip()
+    {
+        return equip;
+    }
+
+    public ArrayList<Loot> getBag()
+    {
+        return bag;
+    }
+
+    public Loot getFromBag(int index)
+    {
+        return bag.get(index);
+    }
+
+    public Loot removeFromBag(int index)
+    {
+        return bag.remove(index);
     }
 
     //Setters

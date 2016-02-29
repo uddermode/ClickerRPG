@@ -48,7 +48,7 @@ public class Loot
             current = new Loot();
         }
 
-        name = "Gonna add name generator later";
+        name = "loot #" + rand.nextInt();
         this.type = type;
 
         switch(getType())

@@ -32,6 +32,7 @@ public class MyGdxGame implements ApplicationListener, GestureListener, InputPro
 	Rectangle statsMenu;
 	Rectangle bagMenu;
 	Rectangle gearMenu;
+	Rectangle bagSelect;
 	
 	@Override
 	public void create () {
@@ -61,9 +62,10 @@ public class MyGdxGame implements ApplicationListener, GestureListener, InputPro
 
 		//set up the HUD
 		fightArea = new Rectangle(200, 100, 200, 300);
-		statsMenu = new Rectangle(100, 0, 100, 100);
-		bagMenu = new Rectangle(200, 0, 100, 100);
-		gearMenu = new Rectangle(300, 0, 100, 100);
+		statsMenu = new Rectangle(100, 0, 100, 75);
+		bagMenu = new Rectangle(200, 0, 100, 75);
+		gearMenu = new Rectangle(300, 0, 100, 75);
+		bagSelect = new Rectangle(0, 100, 150, 200);
 
 		//set up input handling
 		InputMultiplexer im = new InputMultiplexer();
@@ -152,6 +154,15 @@ public class MyGdxGame implements ApplicationListener, GestureListener, InputPro
 
 	@Override
 	public boolean pan(float x, float y, float deltaX, float deltaY) {
+		//convert touch to match screen coords
+		Vector3 touchCoords = camera.unproject(new Vector3(x, y, 0));
+		if(bagSelect.contains(touchCoords.x, touchCoords.y) && world.getState() == World.State.STATE_BAG)
+		{
+			world.setBagPos(world.getBagPos() - (int)(deltaY/5));
+			System.out.println(world.getBagPos());
+		}
+
+
 		return false;
 	}
 
@@ -213,6 +224,11 @@ public class MyGdxGame implements ApplicationListener, GestureListener, InputPro
 		else if(gearMenu.contains(touchCoords.x, touchCoords.y))
 		{
 			world.setState(World.State.STATE_GEAR);
+		}
+		else if(bagSelect.contains(touchCoords.x, touchCoords.y) && world.getState() == World.State.STATE_BAG)
+		{
+			world.setSelectedPos(9 - (((int)touchCoords.y - 90)/20));
+			System.out.println("Selected item:" + world.getSelectedPos());
 		}
 		return false;
 	}

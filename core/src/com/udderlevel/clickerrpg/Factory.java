@@ -40,38 +40,45 @@ public enum Factory
         }
     }
 
-    public Loot generateLoot(ArrayList<Loot> playerLoot)
-    {
-        int type = rand.nextInt(7);
-        Loot loot = playerLoot.get(type);
+    public Loot generateLoot(ArrayList<Loot> playerLoot) {
+        //Drop chance is 1/10
+        int drop = rand.nextInt(10);
 
-        if(type == 0)
-        {
-            return new Loot(loot, rand, Loot.Type.ARMS);
+        //Drop generation
+        if (drop >= 0) {
+            System.out.println("Loot drop");
+            int type = rand.nextInt(7);
+            Loot loot;
+
+            if(type >= playerLoot.size())
+            {
+                loot = null;
+            }
+            else
+            {
+                loot = playerLoot.get(type);
+            }
+
+            if (type == 0) {
+                return new Loot(loot, rand, Loot.Type.ARMS);
+            } else if (type == 1) {
+                return new Loot(loot, rand, Loot.Type.BODY);
+            } else if (type == 2) {
+                return new Loot(loot, rand, Loot.Type.HEAD);
+            } else if (type == 3) {
+                return new Loot(loot, rand, Loot.Type.LEGS);
+            } else if (type == 4) {
+                return new Loot(loot, rand, Loot.Type.OTHER);
+            } else if (type == 5) {
+                return new Loot(loot, rand, Loot.Type.SHIELD);
+            } else {
+                return new Loot(loot, rand, Loot.Type.WEAPON);
+            }
         }
-        else if(type == 1)
+        else //No drop
         {
-            return new Loot(loot, rand, Loot.Type.BODY);
-        }
-        else if(type == 2)
-        {
-            return new Loot(loot, rand, Loot.Type.HEAD);
-        }
-        else if(type == 3)
-        {
-            return new Loot(loot, rand, Loot.Type.LEGS);
-        }
-        else if(type == 4)
-        {
-            return new Loot(loot, rand, Loot.Type.OTHER);
-        }
-        else if(type == 5)
-        {
-            return new Loot(loot, rand, Loot.Type.SHIELD);
-        }
-        else
-        {
-            return new Loot(loot, rand, Loot.Type.WEAPON);
+            return null;
         }
     }
+
 }
