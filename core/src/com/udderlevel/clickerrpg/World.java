@@ -24,6 +24,7 @@ public class World
     private boolean enemyKilled;
     private int distanceFromEnemy;
     private int worldLevel;
+    private int currentDPS;
 
     //current position in the bag
     private int bagPos;
@@ -44,6 +45,7 @@ public class World
         bagPos = 0;
         selectedPos = 0;
         state = State.STATE_STATS;
+        getDPS();
     }
 
     //loading player
@@ -55,6 +57,7 @@ public class World
         this.worldLevel = worldLevel;
         distanceFromEnemy = 10 * worldLevel;
         state = State.STATE_STATS;
+        getDPS();
     }
 
     //Methods
@@ -75,6 +78,7 @@ public class World
                         //Generate enemy
                         enemyKilled = false;
                         enemy = Factory.FACTORY.generateEnemy((worldLevel/3) + 1);
+                        getDPS();
                         distanceFromEnemy = 10;
                     } else {
                         distanceFromEnemy -= player.getSpeed();
@@ -119,7 +123,7 @@ public class World
                 font.draw(batch, "Speed: " + player.getSpeed(), 20, 210);
                 font.draw(batch, "Xp: " + player.getXpCurrent(), 20, 190);
                 font.draw(batch, "Next Level: " + player.getXpNeeded(), 20, 170);
-                font.draw(batch, "DPS: " + getDPS(), 20, 150);
+                font.draw(batch, "DPS: " + currentDPS, 20, 150);
                 font.draw(batch, "Click DMG: " + player.getClickDMG(), 20, 130);
 
                 switch (player.getState()) {
@@ -170,15 +174,15 @@ public class World
 
     //Calculates the damage per second.
     //Minimum damage is player level
-    public int getDPS()
+    public void getDPS()
     {
-        return Math.max(player.getAttack() * (player.getAttack()/enemy.getDefense()), player.getLevel());
+        currentDPS = Math.max(player.getAttack() * (player.getAttack()/enemy.getDefense()), player.getLevel());
     }
 
     //Actually does damage to the enemy
     public void applyDPS()
     {
-        enemy.setHealth(enemy.getHealth()-getDPS());
+        enemy.setHealth(enemy.getHealth()-currentDPS);
     }
 
     //Calculates and applies the xp gained

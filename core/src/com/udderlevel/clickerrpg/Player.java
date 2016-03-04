@@ -28,8 +28,6 @@ public class Player
     private int xpCurrent;
     private int clickDMG;
 
-    private boolean statChanged;
-
     private ArrayList<Loot> bag;
     private ArrayList<Loot> equip;
 
@@ -48,8 +46,6 @@ public class Player
 
         bag = new ArrayList<Loot>();
         equip = new ArrayList<Loot>();
-
-        statChanged = true;
     }
 
     //Methods
@@ -67,7 +63,6 @@ public class Player
             defense += 1;
             speed += 1;
             clickDMG += level;
-            statChanged = true;
 
             //reset xp and xpNeeded
             xpCurrent = 0;
@@ -111,7 +106,6 @@ public class Player
                 equip.set(4, loot);
                 break;
         }
-        statChanged = true;
     }
 
     //Getters
@@ -157,9 +151,6 @@ public class Player
 
     public int getClickDMG() { return clickDMG; }
 
-    public boolean isStatChanged() {
-        return statChanged;
-    }
 
     public ArrayList<Loot> getEquip()
     {
@@ -189,7 +180,4 @@ public class Player
 
     public void addClickDMG(int increase) { this.clickDMG += increase; }
 
-    public void setStatChanged(boolean statChanged) {
-        this.statChanged = statChanged;
-    }
 }
